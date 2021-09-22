@@ -1,0 +1,52 @@
+plugins {
+  id 'org.springframework.boot' version '2.4.0'
+  id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+  id 'java'
+
+}
+
+group = 'com.organization.platform'
+sourceCompatibility = '15'
+
+repositories {
+  mavenCentral()
+  jcenter()
+
+}
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+  integrationTestImplementation.extendsFrom testImplementation
+  integrationTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+dependencyManagement {
+  resolutionStrategy {
+    cacheChangingModulesFor 0, 'seconds'
+  }
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  compileOnly 'org.projectlombok:lombok'
+  annotationProcessor 'org.projectlombok:lombok'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  // MOCKITO
+  compile 'org.hibernate:hibernate-java8'
+  // FLYWAY
+  compile 'org.flywaydb:flyway-core'
+  runtimeOnly 'org.postgresql:postgresql'
+
+}
+
+
+sourceSets {
+  integrationTest {
+    compileClasspath += sourceSets.main.output
+    runtimeClasspath += sourceSets.main.output
+  }
+}

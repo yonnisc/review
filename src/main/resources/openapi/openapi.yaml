@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: Platform User Service
+  description: User CRUD API
+  version: 1.0.0
+
+servers:
+  - url: ''
+
+paths:
+  /users/insert-user:
+    post:
+      tags:
+        - users
+      summary: Create a new user
+      operationId: createNewUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreationRequest'
+      responses:
+        '200':
+          description: New user created
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserErrorResponse'
+
+components:
+  schemas:
+    UserCreationRequest:
+      title: User Creation Request
+      type: object
+      required:
+        - firstName
+        - lastName
+        - emailAddress
+      properties:
+        firstName:
+          type: string
+          description: first name
+          example: 'John'
+        lastName:
+          type: string
+          description: last name
+          example: 'Doe'
+        emailAddress:
+          type: string
+          format: email
+          description: email
+          example: 'example@abc.com'
+    UserErrorResponse:
+      required:
+        - errors
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Error code response
+                enum:
+                  - USER_ALREADY_EXIST
+                  - INTERNAL_SERVER_ERROR
+                example: USER_ALREADY_EXIST
+
+tags:
+  - name: users
+    description: User operations
