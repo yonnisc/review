@@ -1,0 +1,27 @@
+sql-config:
+  user: ${POSTGRES_USER:admin}
+  password: ${POSTGRES_PASSWORD:admin}
+  host: ${POSTGRES_HOST:http://mydb.com}
+  db-name: ${POSTGRES_DB_NAME:postgres}
+  port: ${POSTGRES_PORT:5432}
+  url: jdbc:postgresql://${sql-config.host}:${sql-config.port}/${sql-config.db-name}
+  schema: ${POSTGRES_SCHEMA:user_service}
+spring:
+  datasource:
+    url: ${sql-config.url}
+    username: ${sql-config.user}
+    password: ${sql-config.password}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    generate-ddl: true
+    properties:
+      hibernate:
+        default_schema: ${sql-config.schema}
+        jdbc:
+          time_zone: UTC
+
+  flyway:
+    enabled: true
+    schemas: ${sql-config.schema}
