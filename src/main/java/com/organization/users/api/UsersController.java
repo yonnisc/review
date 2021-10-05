@@ -19,7 +19,7 @@ public class UsersController {
 
   private final UserService userService;
 
-  @PostMapping
+  @GetMapping("/insert-user")
   @ResponseStatus(OK)
   public ResponseEntity<String> createNewUser(@RequestBody UserCreationRequest userCreationRequest) {
     try {
